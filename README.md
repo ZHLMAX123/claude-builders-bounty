@@ -55,7 +55,15 @@ import json, pathlib
 settings = pathlib.Path.home() / ".claude" / "settings.json"
 data = json.loads(settings.read_text()) if settings.exists() else {}
 data.setdefault("hooks", {}).setdefault("PreToolUse", [])
-entry = {"matcher": "Bash", "hooks": [{"type": "command", "command": str(pathlib.Path.home() / ".claude" / "hooks" / "block-destructive-bash.py")}]} 
+entry = {
+    "matcher": "Bash",
+    "hooks": [
+        {
+            "type": "command",
+            "command": str(pathlib.Path.home() / ".claude" / "hooks" / "block-destructive-bash.py"),
+        }
+    ],
+}
 if entry not in data["hooks"]["PreToolUse"]:
     data["hooks"]["PreToolUse"].append(entry)
 settings.write_text(json.dumps(data, indent=2) + "\n")
